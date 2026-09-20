@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProduTech S.A. — Gestión de Producción</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===================== PANTALLA DE LOGIN ===================== -->
+  <section id="login-view" class="login-screen">
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-logo">PT</div>
+        <div>
+          <h1>ProduTech <span>S.A.</span></h1>
+          <p class="brand-sub">Sistema de Gestión de Producción</p>
+        </div>
+      </div>
+
+      <form id="login-form" autocomplete="off">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="p. ej. admin" required />
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="••••••" required />
+
+        <label for="role">Rol</label>
+        <select id="role">
+          <option value="admin">Personal administrativo</option>
+          <option value="operario">Empleado (producción)</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+        <p id="login-error" class="login-error" hidden></p>
+      </form>
+
+      <div class="login-hint">
+        <strong>Credenciales de prueba:</strong><br />
+        Administrativo → <code>admin</code> / <code>1234</code><br />
+        Operario → <code>operario</code> / <code>1234</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== APLICACIÓN ===================== -->
+  <div id="app-view" class="app" hidden>
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo small">PT</div>
+        <span>ProduTech</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="dashboard">📊 Panel de control</button>
+        <button class="nav-item" data-view="ordenes">🏭 Órdenes de producción</button>
+        <button class="nav-item" data-view="inventario">📦 Inventario</button>
+        <button class="nav-item admin-only" data-view="reportes">📈 Reportes</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-box">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div>
+            <div class="user-name" id="user-name">Usuario</div>
+            <div class="user-role" id="user-role">Rol</div>
+          </div>
+        </div>
+        <button id="logout-btn" class="btn btn-ghost btn-block">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="content">
+      <header class="topbar">
+        <h2 id="page-title">Panel de control</h2>
+        <span class="badge" id="clock"></span>
+      </header>
+
+      <!-- Vista: Dashboard -->
+      <section id="dashboard" class="view">
+        <div class="cards" id="kpi-cards"></div>
+        <div class="panel">
+          <h3>Estado de las órdenes</h3>
+          <div class="bars" id="status-bars"></div>
+        </div>
+        <div class="panel">
+          <h3>Alertas de inventario</h3>
+          <ul class="alert-list" id="stock-alerts"></ul>
+        </div>
+      </section>
+
+      <!-- Vista: Órdenes -->
+      <section id="ordenes" class="view" hidden>
+        <div class="toolbar">
+          <button class="btn btn-primary" id="add-orden-btn">＋ Nueva orden</button>
+          <input type="search" id="orden-search" placeholder="Buscar por producto o código..." />
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Código</th><th>Producto</th><th>Cantidad</th>
+                <th>Responsable</th><th>Fecha límite</th><th>Estado</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="ordenes-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Vista: Inventario -->
+      <section id="inventario" class="view" hidden>
+        <div class="toolbar">
+          <button class="btn btn-primary admin-only" id="add-item-btn">＋ Nuevo material</button>
+          <input type="search" id="inv-search" placeholder="Buscar material..." />
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Material</th><th>Stock actual</th><th>Stock mínimo</th>
+                <th>Unidad</th><th>Estado</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="inventario-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Vista: Reportes -->
+      <section id="reportes" class="view" hidden>
+        <div class="cards" id="report-cards"></div>
+        <div class="panel">
+          <h3>Producción por producto</h3>
+          <div class="bars" id="report-bars"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===================== MODAL GENÉRICO ===================== -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modal-title">Título</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <form id="modal-form" class="modal-body"></form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
