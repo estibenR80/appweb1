@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pronoun Power — Memory Card Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🧠 Pronoun Power</h1>
+    <p class="subtitle">A Memory Card Game — Practice Personal, Possessive &amp; Object Pronouns</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="game" role="tab">🎮 Play</button>
+    <button class="tab" data-tab="rules" role="tab">📜 Rules / Reglas</button>
+    <button class="tab" data-tab="examples" role="tab">💡 Examples</button>
+    <button class="tab" data-tab="reflect" role="tab">🔍 Reflection</button>
+  </nav>
+
+  <!-- ============ GAME TAB ============ -->
+  <section id="game" class="panel active">
+    <div class="scoreboard">
+      <div class="score-box p1" id="p1box">
+        <span class="score-label">Player 1</span>
+        <span class="score-value" id="p1score">0</span>
+        <span class="score-sub">pairs</span>
+      </div>
+      <div class="turn-indicator">
+        <div id="turnText">Player 1's turn</div>
+        <div class="legend">
+          <span class="chip personal">Personal</span>
+          <span class="chip possessive">Possessive</span>
+          <span class="chip object">Object</span>
+          <span class="chip wildcard">Wildcard</span>
+        </div>
+      </div>
+      <div class="score-box p2" id="p2box">
+        <span class="score-label">Player 2</span>
+        <span class="score-value" id="p2score">0</span>
+        <span class="score-sub">pairs</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label class="mode-toggle">
+        <input type="checkbox" id="soloMode" /> Solo / Práctica individual
+      </label>
+      <button id="restartBtn" class="btn">🔄 New Game / Nuevo juego</button>
+    </div>
+
+    <div id="message" class="message" aria-live="polite"></div>
+
+    <div id="board" class="board" aria-label="Memory game board"></div>
+
+    <div id="winBanner" class="win-banner hidden"></div>
+  </section>
+
+  <!-- ============ RULES TAB ============ -->
+  <section id="rules" class="panel">
+    <div class="card-doc">
+      <h2>📜 How to Play — Cómo jugar</h2>
+      <div class="two-col">
+        <div>
+          <h3>🇬🇧 English</h3>
+          <ol>
+            <li>The board has <strong>20 cards (10 pairs)</strong> plus 2 wildcards, all face down.</li>
+            <li>On your turn, <strong>flip two cards</strong>.</li>
+            <li>Match a <strong>sentence card</strong> with its <strong>correct pronoun card</strong>.</li>
+            <li>If they match, you <strong>keep the pair</strong> and play again.</li>
+            <li>If not, the cards <strong>flip back</strong> and it is the other player's turn.</li>
+            <li><strong>Wildcards:</strong> "Extra Turn" lets you flip again; "Lose a Pair" makes you return one pair.</li>
+            <li>The <strong>winner</strong> is the player with the most pairs when the board is clear.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>🇪🇸 Español</h3>
+          <ol>
+            <li>El tablero tiene <strong>20 cartas (10 pares)</strong> más 2 comodines, boca abajo.</li>
+            <li>En tu turno, <strong>voltea dos cartas</strong>.</li>
+            <li>Une una <strong>carta de oración</strong> con su <strong>pronombre correcto</strong>.</li>
+            <li>Si coinciden, <strong>conservas el par</strong> y juegas de nuevo.</li>
+            <li>Si no, las cartas <strong>se voltean</strong> y pasa el turno.</li>
+            <li><strong>Comodines:</strong> "Extra Turn" da otro turno; "Lose a Pair" te hace devolver un par.</li>
+            <li><strong>Gana</strong> quien tenga más pares al terminar.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXAMPLES TAB ============ -->
+  <section id="examples" class="panel">
+    <div class="card-doc">
+      <h2>💡 Pronoun Types &amp; Examples</h2>
+      <div class="type-grid">
+        <div class="type-card personal-bg">
+          <h3>Personal (subject)</h3>
+          <p>I, you, he, she, it, we, they</p>
+          <small>Do the action → <em>She studies English.</em></small>
+        </div>
+        <div class="type-card object-bg">
+          <h3>Object</h3>
+          <p>me, you, him, her, it, us, them</p>
+          <small>Receive the action → <em>I like him.</em></small>
+        </div>
+        <div class="type-card possessive-bg">
+          <h3>Possessive</h3>
+          <p>my, your, his, her, our, their / mine, yours, hers, ours</p>
+          <small>Show ownership → <em>That is mine.</em></small>
+        </div>
+      </div>
+
+      <h2>✍️ Examples with Explanations</h2>
+      <ul class="example-list">
+        <li><strong>"This is <mark class="possessive">her</mark> bag."</strong> → The pronoun <em>her</em> shows <strong>possession</strong> (whose bag it is).</li>
+        <li><strong>"I like <mark class="object">him</mark>."</strong> → The pronoun <em>him</em> is an <strong>object pronoun</strong> (it receives the action of "like").</li>
+        <li><strong>"That is <mark class="possessive">mine</mark>."</strong> → The pronoun <em>mine</em> <strong>replaces the noun</strong> and shows possession without repeating it.</li>
+        <li><strong>"<mark class="personal">We</mark> play together."</strong> → The pronoun <em>we</em> is a <strong>personal/subject pronoun</strong> (it does the action).</li>
+        <li><strong>"Give the book to <mark class="object">me</mark>."</strong> → The pronoun <em>me</em> is an <strong>object pronoun</strong> after the preposition "to".</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ REFLECTION TAB ============ -->
+  <section id="reflect" class="panel">
+    <div class="card-doc" id="reflectionDoc"></div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Made for English learners • Personal · Possessive · Object pronouns</p>
+  </footer>
+
+  <script src="game.js"></script>
+</body>
+</html>
