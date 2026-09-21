@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <radialGradient id="centerGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1b3a8f"/>
+      <stop offset="100%" stop-color="#0d1f52"/>
+    </radialGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#555"/>
+    </marker>
+    <style>
+      .title { font-size: 26px; font-weight: 700; fill: #ffffff; }
+      .branch-title { font-size: 20px; font-weight: 700; fill: #ffffff; }
+      .item { font-size: 13px; fill: #1a1a1a; }
+      .node-title { font-weight: 700; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1600" height="1200" fill="#f4f6fb"/>
+
+  <!-- Main title -->
+  <text x="800" y="46" text-anchor="middle" font-size="30" font-weight="700" fill="#0d1f52">Arquitectura de Microservicios — Tienda en Línea</text>
+  <text x="800" y="74" text-anchor="middle" font-size="16" fill="#5a6270">Esquema conceptual · Énfasis en la capa de dominio · Ramificaciones en sentido horario</text>
+
+  <!-- ===== Connectors (drawn first so nodes sit on top) ===== -->
+  <!-- 12 o'clock -->
+  <line x1="800" y1="600" x2="800" y2="210" stroke="#c0392b" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- ~1:30 -->
+  <line x1="800" y1="600" x2="1200" y2="300" stroke="#e67e22" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- 3 o'clock -->
+  <line x1="800" y1="600" x2="1330" y2="600" stroke="#f1c40f" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- ~4:30 -->
+  <line x1="800" y1="600" x2="1200" y2="900" stroke="#27ae60" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- 6 o'clock -->
+  <line x1="800" y1="600" x2="800" y2="1010" stroke="#16a085" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- ~7:30 -->
+  <line x1="800" y1="600" x2="400" y2="900" stroke="#2980b9" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- 9 o'clock -->
+  <line x1="800" y1="600" x2="270" y2="600" stroke="#8e44ad" stroke-width="3" marker-end="url(#arrow)"/>
+  <!-- ~10:30 -->
+  <line x1="800" y1="600" x2="400" y2="300" stroke="#c0392b" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- ===== Central idea ===== -->
+  <circle cx="800" cy="600" r="150" fill="url(#centerGrad)" stroke="#f1c40f" stroke-width="6"/>
+  <text x="800" y="560" text-anchor="middle" class="title">API REST + CRUD</text>
+  <text x="800" y="592" text-anchor="middle" font-size="18" font-weight="600" fill="#f1c40f">Microservicios</text>
+  <text x="800" y="618" text-anchor="middle" font-size="14" fill="#dbe4ff">Crear · Leer</text>
+  <text x="800" y="638" text-anchor="middle" font-size="14" fill="#dbe4ff">Actualizar · Eliminar</text>
+  <text x="800" y="666" text-anchor="middle" font-size="13" fill="#9fb3e8">sobre Bases de Datos</text>
+
+  <!-- ===================== BRANCH 1 (12:00) - Requisitos ===================== -->
+  <g>
+    <rect x="620" y="100" width="360" height="110" rx="12" fill="#c0392b"/>
+    <text x="800" y="128" text-anchor="middle" class="branch-title">1 · Requisitos</text>
+    <text x="640" y="152" class="item" fill="#fff">Funcionales: catálogo, carrito, pago,</text>
+    <text x="640" y="170" class="item" fill="#fff">inventario, órdenes/envíos, cuentas y perfiles</text>
+    <text x="640" y="192" class="item" fill="#fff">No funcionales: escalabilidad, seguridad,</text>
+    <text x="640" y="208" class="item" fill="#fff">disponibilidad, rendimiento, mantenibilidad</text>
+  </g>
+
+  <!-- ===================== BRANCH 2 (1:30) - API Gateway y Contratos ===================== -->
+  <g>
+    <rect x="1130" y="210" width="360" height="120" rx="12" fill="#e67e22"/>
+    <text x="1310" y="238" text-anchor="middle" class="branch-title">2 · API Gateway y Contratos</text>
+    <text x="1150" y="262" class="item" fill="#fff">API Gateway (enrutamiento, auth, rate limit)</text>
+    <text x="1150" y="282" class="item" fill="#fff">Contratos RESTful documentados con OpenAPI</text>
+    <text x="1150" y="302" class="item" fill="#fff">Respuestas estructuradas en JSON</text>
+    <text x="1150" y="322" class="item" fill="#fff">Versionado de endpoints</text>
+  </g>
+
+  <!-- ===================== BRANCH 3 (3:00) - Microservicios ===================== -->
+  <g>
+    <rect x="1340" y="500" width="250" height="200" rx="12" fill="#f1c40f"/>
+    <text x="1465" y="528" text-anchor="middle" font-size="20" font-weight="700" fill="#5a4600">3 · Microservicios</text>
+    <text x="1360" y="556" class="item">• Usuario</text>
+    <text x="1360" y="578" class="item">• Productos</text>
+    <text x="1360" y="600" class="item">• Órdenes</text>
+    <text x="1360" y="622" class="item">• Inventario</text>
+    <text x="1360" y="644" class="item">• Envíos</text>
+    <text x="1360" y="666" class="item">• Pasarela de pago</text>
+    <text x="1360" y="690" class="item" font-style="italic">Bajo acoplamiento / alta cohesión</text>
+  </g>
+
+  <!-- ===================== BRANCH 4 (4:30) - Persistencia ===================== -->
+  <g>
+    <rect x="1130" y="860" width="360" height="130" rx="12" fill="#27ae60"/>
+    <text x="1310" y="888" text-anchor="middle" class="branch-title">4 · Persistencia de Datos</text>
+    <text x="1150" y="912" class="item" fill="#fff">MySQL: órdenes y productos (relacional)</text>
+    <text x="1150" y="932" class="item" fill="#fff">MongoDB: inventario (documental)</text>
+    <text x="1150" y="952" class="item" fill="#fff">Tablas: productos, usuarios, órdenes,</text>
+    <text x="1150" y="968" class="item" fill="#fff">reviews, inventario</text>
+    <text x="1150" y="988" class="item" fill="#fff">Índices y optimizaciones de consulta</text>
+  </g>
+
+  <!-- ===================== BRANCH 5 (6:00) - CAPA DE DOMINIO (ÉNFASIS) ===================== -->
+  <g>
+    <rect x="560" y="1010" width="480" height="180" rx="14" fill="#0d1f52" stroke="#f1c40f" stroke-width="4"/>
+    <text x="800" y="1040" text-anchor="middle" font-size="22" font-weight="700" fill="#f1c40f">5 · CAPA DE DOMINIO ★ (núcleo)</text>
+    <text x="580" y="1066" class="item" fill="#fff">Encapsula y administra la LÓGICA DE NEGOCIO,</text>
+    <text x="580" y="1084" class="item" fill="#fff">aislándola del resto de la arquitectura.</text>
+    <text x="580" y="1108" class="item" fill="#fff">• Entidades y agregados: Producto, Orden, Carrito, Usuario</text>
+    <text x="580" y="1128" class="item" fill="#fff">• Reglas de negocio: validar stock, calcular total, aplicar</text>
+    <text x="580" y="1144" class="item" fill="#fff">  descuentos, transición de estados de la orden</text>
+    <text x="580" y="1166" class="item" fill="#fff">• Objetos de valor y servicios de dominio</text>
+    <text x="580" y="1184" class="item" fill="#fff">Rodeada por: aplicación → infraestructura → presentación</text>
+  </g>
+
+  <!-- ===================== BRANCH 6 (7:30) - Órdenes y Envíos ===================== -->
+  <g>
+    <rect x="110" y="860" width="360" height="130" rx="12" fill="#2980b9"/>
+    <text x="290" y="888" text-anchor="middle" class="branch-title">6 · Órdenes y Envíos</text>
+    <text x="130" y="912" class="item" fill="#fff">Gestión de órdenes (ciclo de vida)</text>
+    <text x="130" y="932" class="item" fill="#fff">Cálculo de totales e impuestos</text>
+    <text x="130" y="952" class="item" fill="#fff">Proceso de envíos y seguimiento</text>
+    <text x="130" y="972" class="item" fill="#fff">Estados: creada, pagada, enviada,</text>
+    <text x="130" y="988" class="item" fill="#fff">entregada, cancelada</text>
+  </g>
+
+  <!-- ===================== BRANCH 7 (9:00) - Catálogo y Carrito ===================== -->
+  <g>
+    <rect x="10" y="500" width="250" height="200" rx="12" fill="#8e44ad"/>
+    <text x="135" y="528" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">7 · Catálogo y Carrito</text>
+    <text x="30" y="556" class="item" fill="#fff">Catálogo de productos</text>
+    <text x="30" y="578" class="item" fill="#fff">Búsqueda y filtrado</text>
+    <text x="30" y="600" class="item" fill="#fff">Paginación de resultados</text>
+    <text x="30" y="622" class="item" fill="#fff">Carrito de compras</text>
+    <text x="30" y="644" class="item" fill="#fff">Reviews de productos</text>
+    <text x="30" y="672" class="item" fill="#fff">Endpoints con parámetros</text>
+    <text x="30" y="690" class="item" fill="#fff">de búsqueda y paginación</text>
+  </g>
+
+  <!-- ===================== BRANCH 8 (10:30) - Pago y Seguridad ===================== -->
+  <g>
+    <rect x="110" y="210" width="360" height="120" rx="12" fill="#c0392b"/>
+    <text x="290" y="238" text-anchor="middle" class="branch-title">8 · Pago y Seguridad</text>
+    <text x="130" y="262" class="item" fill="#fff">Pasarela de pago integrada</text>
+    <text x="130" y="282" class="item" fill="#fff">Cuentas de usuario y perfiles</text>
+    <text x="130" y="302" class="item" fill="#fff">Autenticación y autorización (JWT)</text>
+    <text x="130" y="322" class="item" fill="#fff">Transacciones seguras (HTTPS/TLS)</text>
+  </g>
+
+  <!-- Legend -->
+  <g>
+    <rect x="20" y="1120" width="360" height="70" rx="8" fill="#ffffff" stroke="#ccc"/>
+    <text x="34" y="1142" font-size="13" font-weight="700" fill="#333">Leyenda de importancia (color):</text>
+    <rect x="34" y="1152" width="16" height="12" fill="#0d1f52"/><text x="56" y="1163" font-size="11" fill="#333">Núcleo/Dominio</text>
+    <rect x="160" y="1152" width="16" height="12" fill="#c0392b"/><text x="182" y="1163" font-size="11" fill="#333">Alta prioridad</text>
+    <rect x="280" y="1152" width="16" height="12" fill="#f1c40f"/><text x="302" y="1163" font-size="11" fill="#333">Estructural</text>
+    <text x="34" y="1183" font-size="11" fill="#666" font-style="italic">Lectura en sentido horario desde la rama 1 (12:00).</text>
+  </g>
+</svg>

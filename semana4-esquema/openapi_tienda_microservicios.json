@@ -1,0 +1,296 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API Tienda en Línea - Arquitectura de Microservicios",
+    "description": "Contrato RESTful de la tienda en línea. Cubre catálogo/productos, carrito, órdenes, envíos y pasarela de pago, con respuestas estructuradas en JSON. El acceso a los microservicios se realiza a través de un API Gateway.",
+    "version": "1.0.0",
+    "contact": { "name": "Estudiante", "email": "estudiante@ejemplo.edu.co" }
+  },
+  "servers": [
+    { "url": "https://api.tienda.com/v1", "description": "API Gateway (producción)" },
+    { "url": "http://localhost:8080/v1", "description": "Entorno local" }
+  ],
+  "tags": [
+    { "name": "Productos", "description": "Catálogo, búsqueda, filtrado y paginación (Microservicio de Productos, MySQL)" },
+    { "name": "Carrito", "description": "Carrito de compras del usuario" },
+    { "name": "Ordenes", "description": "Gestión de órdenes (Microservicio de Órdenes, MySQL)" },
+    { "name": "Envios", "description": "Gestión y seguimiento de envíos (Microservicio de Envíos)" },
+    { "name": "Pagos", "description": "Pasarela de pago integrada (Microservicio de Pasarela de Pago)" },
+    { "name": "Inventario", "description": "Gestión de inventario (Microservicio de Inventario, MongoDB)" }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "tags": ["Productos"],
+        "summary": "Listar productos con búsqueda, filtrado y paginación",
+        "operationId": "listProducts",
+        "parameters": [
+          { "name": "q", "in": "query", "description": "Término de búsqueda por nombre o descripción", "schema": { "type": "string" } },
+          { "name": "category", "in": "query", "description": "Filtrar por categoría", "schema": { "type": "string" } },
+          { "name": "minPrice", "in": "query", "schema": { "type": "number", "format": "float" } },
+          { "name": "maxPrice", "in": "query", "schema": { "type": "number", "format": "float" } },
+          { "name": "sort", "in": "query", "description": "Campo de ordenamiento, p. ej. price,-createdAt", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "description": "Número de página (1..n)", "schema": { "type": "integer", "default": 1, "minimum": 1 } },
+          { "name": "pageSize", "in": "query", "description": "Elementos por página", "schema": { "type": "integer", "default": 20, "minimum": 1, "maximum": 100 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista paginada de productos",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductPage" } } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Productos"],
+        "summary": "Crear un producto (CRUD - Create)",
+        "operationId": "createProduct",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductInput" } } } },
+        "responses": {
+          "201": { "description": "Producto creado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Product" } } } },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "parameters": [ { "name": "productId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+      "get": {
+        "tags": ["Productos"], "summary": "Obtener un producto (CRUD - Read)", "operationId": "getProduct",
+        "responses": {
+          "200": { "description": "Producto", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Product" } } } },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "put": {
+        "tags": ["Productos"], "summary": "Actualizar un producto (CRUD - Update)", "operationId": "updateProduct",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductInput" } } } },
+        "responses": {
+          "200": { "description": "Producto actualizado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Product" } } } },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "delete": {
+        "tags": ["Productos"], "summary": "Eliminar un producto (CRUD - Delete)", "operationId": "deleteProduct",
+        "responses": { "204": { "description": "Eliminado" }, "404": { "$ref": "#/components/responses/NotFound" } }
+      }
+    },
+    "/cart/{userId}": {
+      "parameters": [ { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+      "get": {
+        "tags": ["Carrito"], "summary": "Obtener el carrito del usuario", "operationId": "getCart",
+        "responses": { "200": { "description": "Carrito", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Cart" } } } } }
+      },
+      "post": {
+        "tags": ["Carrito"], "summary": "Agregar un ítem al carrito", "operationId": "addCartItem",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CartItemInput" } } } },
+        "responses": { "200": { "description": "Carrito actualizado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Cart" } } } } }
+      },
+      "delete": {
+        "tags": ["Carrito"], "summary": "Vaciar el carrito", "operationId": "clearCart",
+        "responses": { "204": { "description": "Carrito vaciado" } }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["Ordenes"], "summary": "Listar órdenes (con paginación)", "operationId": "listOrders",
+        "parameters": [
+          { "name": "userId", "in": "query", "schema": { "type": "string" } },
+          { "name": "status", "in": "query", "schema": { "$ref": "#/components/schemas/OrderStatus" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": { "200": { "description": "Lista de órdenes", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Order" } } } } } }
+      },
+      "post": {
+        "tags": ["Ordenes"], "summary": "Crear una orden a partir del carrito", "operationId": "createOrder",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrderInput" } } } },
+        "responses": {
+          "201": { "description": "Orden creada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } },
+          "409": { "description": "Sin stock suficiente (regla de dominio)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "parameters": [ { "name": "orderId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+      "get": {
+        "tags": ["Ordenes"], "summary": "Obtener una orden", "operationId": "getOrder",
+        "responses": { "200": { "description": "Orden", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } }, "404": { "$ref": "#/components/responses/NotFound" } }
+      }
+    },
+    "/shipments": {
+      "post": {
+        "tags": ["Envios"], "summary": "Crear un envío para una orden", "operationId": "createShipment",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ShipmentInput" } } } },
+        "responses": { "201": { "description": "Envío creado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Shipment" } } } } }
+      }
+    },
+    "/shipments/{shipmentId}": {
+      "parameters": [ { "name": "shipmentId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+      "get": {
+        "tags": ["Envios"], "summary": "Consultar estado y seguimiento del envío", "operationId": "getShipment",
+        "responses": { "200": { "description": "Envío", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Shipment" } } } }, "404": { "$ref": "#/components/responses/NotFound" } }
+      }
+    },
+    "/payments": {
+      "post": {
+        "tags": ["Pagos"], "summary": "Procesar un pago a través de la pasarela integrada", "operationId": "processPayment",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaymentInput" } } } },
+        "responses": {
+          "200": { "description": "Resultado del pago", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Payment" } } } },
+          "402": { "description": "Pago rechazado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/inventory/{productId}": {
+      "parameters": [ { "name": "productId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+      "get": {
+        "tags": ["Inventario"], "summary": "Consultar existencias de un producto", "operationId": "getInventory",
+        "responses": { "200": { "description": "Inventario", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Inventory" } } } } }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": { "description": "Solicitud inválida", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+      "NotFound": { "description": "Recurso no encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+    },
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "PRD-1001" },
+          "name": { "type": "string", "example": "Auriculares Bluetooth" },
+          "description": { "type": "string" },
+          "price": { "type": "number", "format": "float", "example": 149900 },
+          "category": { "type": "string", "example": "Audio" },
+          "rating": { "type": "number", "format": "float", "example": 4.5 },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ProductInput": {
+        "type": "object",
+        "required": ["name", "price", "category"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "price": { "type": "number", "format": "float" },
+          "category": { "type": "string" }
+        }
+      },
+      "ProductPage": {
+        "type": "object",
+        "properties": {
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/Product" } },
+          "page": { "type": "integer", "example": 1 },
+          "pageSize": { "type": "integer", "example": 20 },
+          "totalItems": { "type": "integer", "example": 137 },
+          "totalPages": { "type": "integer", "example": 7 }
+        }
+      },
+      "CartItemInput": {
+        "type": "object",
+        "required": ["productId", "quantity"],
+        "properties": {
+          "productId": { "type": "string" },
+          "quantity": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "Cart": {
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": { "type": "string" },
+                "name": { "type": "string" },
+                "quantity": { "type": "integer" },
+                "unitPrice": { "type": "number", "format": "float" }
+              }
+            }
+          },
+          "total": { "type": "number", "format": "float" }
+        }
+      },
+      "OrderInput": {
+        "type": "object",
+        "required": ["userId"],
+        "properties": {
+          "userId": { "type": "string" },
+          "shippingAddress": { "type": "string" }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "ORD-5001" },
+          "userId": { "type": "string" },
+          "items": { "type": "array", "items": { "$ref": "#/components/schemas/Product" } },
+          "total": { "type": "number", "format": "float" },
+          "status": { "$ref": "#/components/schemas/OrderStatus" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "OrderStatus": {
+        "type": "string",
+        "enum": ["CREADA", "PAGADA", "ENVIADA", "ENTREGADA", "CANCELADA"],
+        "description": "Estados del ciclo de vida de la orden (regla de dominio)"
+      },
+      "ShipmentInput": {
+        "type": "object",
+        "required": ["orderId", "address"],
+        "properties": {
+          "orderId": { "type": "string" },
+          "address": { "type": "string" },
+          "carrier": { "type": "string", "example": "Servientrega" }
+        }
+      },
+      "Shipment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "SHP-9001" },
+          "orderId": { "type": "string" },
+          "trackingNumber": { "type": "string" },
+          "status": { "type": "string", "enum": ["PREPARANDO", "EN_TRANSITO", "ENTREGADO"] },
+          "estimatedDelivery": { "type": "string", "format": "date" }
+        }
+      },
+      "PaymentInput": {
+        "type": "object",
+        "required": ["orderId", "amount", "method"],
+        "properties": {
+          "orderId": { "type": "string" },
+          "amount": { "type": "number", "format": "float" },
+          "method": { "type": "string", "enum": ["TARJETA", "PSE", "PAYPAL"] }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "PAY-7001" },
+          "orderId": { "type": "string" },
+          "amount": { "type": "number", "format": "float" },
+          "status": { "type": "string", "enum": ["APROBADO", "RECHAZADO", "PENDIENTE"] },
+          "transactionId": { "type": "string" }
+        }
+      },
+      "Inventory": {
+        "type": "object",
+        "properties": {
+          "productId": { "type": "string" },
+          "available": { "type": "integer", "example": 42 },
+          "reserved": { "type": "integer", "example": 3 },
+          "warehouse": { "type": "string", "example": "BOG-01" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string", "example": "OUT_OF_STOCK" },
+          "message": { "type": "string", "example": "No hay existencias suficientes para completar la orden." }
+        }
+      }
+    }
+  }
+}
