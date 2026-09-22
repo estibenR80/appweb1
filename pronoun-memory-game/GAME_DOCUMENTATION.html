@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pronoun Power — Game Documentation (APA 7)</title>
+<style>
+  /* APA 7 style: Times New Roman, 12pt, double spacing, 1-inch margins */
+  @page { size: letter; margin: 1in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+    line-height: 2;
+    color: #000;
+    background: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+  }
+  .page {
+    background: #fff;
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto 24px;
+    padding: 1in;
+    box-shadow: 0 2px 12px rgba(0,0,0,.15);
+  }
+  h1, h2, h3 { font-family: "Times New Roman", Times, serif; }
+  p { margin: 0 0 0 0; text-indent: 0.5in; }
+  p.noindent { text-indent: 0; }
+
+  /* Title page */
+  .title-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 9in;
+  }
+  .title-page .title {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 3in;
+  }
+  .title-page .spacer { line-height: 2; }
+  .running-head {
+    text-transform: uppercase;
+    font-size: 12pt;
+    letter-spacing: .5px;
+  }
+
+  /* Headings APA */
+  .centered-h1 { text-align: center; font-weight: bold; font-size: 12pt; margin: 0 0 0; }
+  h2.level1 { text-align: center; font-weight: bold; font-size: 12pt; margin: 24px 0 0; }
+  h3.level2 { text-align: left; font-weight: bold; font-size: 12pt; margin: 18px 0 0; }
+  h4.level3 { text-align: left; font-weight: bold; font-style: italic; font-size: 12pt; margin: 14px 0 0; }
+
+  ul, ol { line-height: 2; margin: 0 0 0 0.5in; }
+  a { color: #0645ad; word-break: break-all; }
+
+  /* References hanging indent */
+  .references p {
+    text-indent: -0.5in;
+    padding-left: 0.5in;
+    margin-bottom: 0;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; line-height: 1.3; }
+  th, td { border: 1px solid #444; padding: 6px 8px; font-size: 11pt; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  caption { text-align: left; font-style: italic; margin-bottom: 4px; }
+
+  .page-number { text-align: right; font-size: 12pt; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; margin: 0; width: auto; min-height: auto; padding: 0; page-break-after: always; }
+    .no-print { display: none; }
+    a { color: #000; }
+  }
+  .toolbar {
+    max-width: 8.5in; margin: 0 auto 16px; text-align: center;
+    font-family: system-ui, sans-serif;
+  }
+  .toolbar button {
+    background: #2f80ed; color:#fff; border:none; padding:10px 18px;
+    border-radius:8px; font-weight:700; cursor:pointer; font-size:14px;
+  }
+  .toolbar p { text-indent:0; font-size:13px; color:#555; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+  <p class="noindent">Tip: choose "Save as PDF" as the destination to export this document.</p>
+</div>
+
+<!-- ============ TITLE PAGE ============ -->
+<section class="page title-page">
+  <div class="title">Pronoun Power: A Digital Memory Card Game for Practicing<br>Personal, Possessive, and Object Pronouns</div>
+  <div class="spacer" style="margin-top:1.5in;">
+    <p class="noindent">Student Name</p>
+    <p class="noindent">Department of English, Universidad Nacional de Educación a Distancia (UNED)</p>
+    <p class="noindent">Course: English A1 — Grammar and Everyday Communication</p>
+    <p class="noindent">Instructor Name</p>
+    <p class="noindent">September 21, 2026</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 1: OVERVIEW ============ -->
+<section class="page">
+  <h1 class="centered-h1">Pronoun Power: A Digital Memory Card Game</h1>
+
+  <p>Pronoun Power is an interactive, browser-based memory card game designed to help
+  A1-level learners practice and strengthen the correct use of English pronouns in everyday
+  contexts. The game presents 20 cards organized into 10 matching pairs, plus 2 wildcard cards,
+  and it reinforces three pronoun categories: personal (subject) pronouns, object pronouns, and
+  possessive pronouns and adjectives. This document explains how the web application works, how to
+  play it, and how its design supports language learning.</p>
+
+  <h2 class="level1">Purpose of the Game</h2>
+  <p>Pronouns allow speakers to communicate naturally without repeating names, which makes them
+  essential for introducing oneself, describing possessions, and talking about friends and family
+  (Muñoz-Ortiz, 2020). The application turns this grammar point into a playful matching task so
+  that learners connect grammatical accuracy with fun, contextualized practice
+  (Santiesteban-Naranjo, 2024).</p>
+
+  <h2 class="level1">Accessing the Game</h2>
+  <p class="noindent">The game can be opened directly in any modern web browser through the
+  following link:</p>
+  <p class="noindent"><strong>Play the game (live link):</strong><br>
+  <a href="https://raw.githack.com/estibenR80/appweb1/add-pronoun-memory-game/pronoun-memory-game/pronoun-power.html">https://raw.githack.com/estibenR80/appweb1/add-pronoun-memory-game/pronoun-memory-game/pronoun-power.html</a></p>
+  <p class="noindent"><strong>Source code (GitHub repository):</strong><br>
+  <a href="https://github.com/estibenR80/appweb1/tree/add-pronoun-memory-game/pronoun-memory-game">https://github.com/estibenR80/appweb1/tree/add-pronoun-memory-game/pronoun-memory-game</a></p>
+  <p class="noindent"><strong>Pull request (project submission):</strong><br>
+  <a href="https://github.com/estibenR80/appweb1/pull/3">https://github.com/estibenR80/appweb1/pull/3</a></p>
+</section>
+
+<!-- ============ PAGE 2: HOW IT WORKS ============ -->
+<section class="page">
+  <h2 class="level1">How the Web Application Works</h2>
+
+  <h3 class="level2">Interface and Navigation</h3>
+  <p>When the page loads, the learner sees a title header and four tabs: <em>Play</em>,
+  <em>Rules</em>, <em>Examples</em>, and <em>Reflection</em>. Clicking a tab shows its panel and
+  hides the others, so the interface stays clean and focused. The <em>Play</em> tab contains the
+  game board; the other three tabs provide bilingual instructions, worked examples, and a
+  metacognitive reflection.</p>
+
+  <h3 class="level2">The Game Board</h3>
+  <p>The board displays 22 face-down cards in a responsive grid that adapts to phones, tablets,
+  and computers. Each card has two faces: a decorative back showing a question mark and a front
+  showing its content. There are three kinds of cards. A <em>sentence card</em> shows an everyday
+  sentence with a blank (for example, "____ am a student at this school."). A <em>pronoun card</em>
+  shows a single pronoun (for example, "I"). A <em>wildcard</em> shows a special action.</p>
+
+  <h3 class="level2">Flipping and Matching Logic</h3>
+  <p>When a learner clicks a card, it flips over with a smooth 3D animation to reveal its front.
+  The player flips two cards per turn. The program checks whether the two cards belong to the same
+  pair and whether one is a sentence and the other is its correct pronoun. If they match, a green
+  "Match!" message appears together with a short grammar explanation, the pair stays face up, the
+  player's score increases, and the same player plays again. If they do not match, a red "Try
+  again!" message appears and the two cards flip back automatically after a short delay, passing
+  the turn to the other player.</p>
+
+  <h3 class="level2">Color Coding of Pronoun Types</h3>
+  <p>To make grammar visible, each pronoun category has its own color used on card borders, tags,
+  and highlighted words: blue for personal pronouns, purple for possessive pronouns and
+  adjectives, and red for object pronouns. Orange marks the wildcards. This color coding helps
+  learners recognize each category at a glance (Escobar-Álvarez, 2020).</p>
+
+  <h3 class="level2">Wildcards</h3>
+  <p>Two wildcards add variety and engagement. The "Extra Turn" card lets the current player flip
+  again, while the "Lose a Pair" card requires the player to return one previously won pair.
+  Wildcards resolve immediately and do not end the player's turn.</p>
+
+  <h3 class="level2">Scoring and Winning</h3>
+  <p>The scoreboard at the top tracks pairs for Player 1 and Player 2 and highlights whose turn it
+  is. A Solo mode is available for individual practice, hiding the second player. When all 10 pairs
+  have been matched, a banner announces the winner (the player with more pairs) or a tie. A "New
+  Game" button reshuffles the deck at any time.</p>
+</section>
+
+<!-- ============ PAGE 3: PAIRS + EXAMPLES ============ -->
+<section class="page">
+  <h2 class="level1">Card Content</h2>
+  <p class="noindent">Table 1 lists the 10 pairs used in the game and the pronoun type each one
+  practices.</p>
+
+  <p class="noindent"><strong>Table 1</strong></p>
+  <caption>The Ten Matching Pairs in Pronoun Power</caption>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Sentence card</th><th>Pronoun card</th><th>Type</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>____ am a student at this school.</td><td>I</td><td>Personal</td></tr>
+      <tr><td>2</td><td>____ studies English every evening at home.</td><td>She</td><td>Personal</td></tr>
+      <tr><td>3</td><td>____ play football with our friends after class.</td><td>We</td><td>Personal</td></tr>
+      <tr><td>4</td><td>My teacher helped ____ with the homework.</td><td>me</td><td>Object</td></tr>
+      <tr><td>5</td><td>I really like ____; he is a good friend.</td><td>him</td><td>Object</td></tr>
+      <tr><td>6</td><td>Please call ____ when dinner is ready.</td><td>us</td><td>Object</td></tr>
+      <tr><td>7</td><td>This is ____ backpack; it belongs to Anna.</td><td>her</td><td>Possessive</td></tr>
+      <tr><td>8</td><td>That blue notebook is ____, not yours.</td><td>mine</td><td>Possessive</td></tr>
+      <tr><td>9</td><td>____ house has a big garden where we play.</td><td>Our</td><td>Possessive</td></tr>
+      <tr><td>10</td><td>The dog wagged ____ tail happily.</td><td>its</td><td>Possessive</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="level1">Examples With Grammatical Explanations</h2>
+  <ul>
+    <li><strong>"This is her bag."</strong> The pronoun <em>her</em> shows possession (whose bag it is).</li>
+    <li><strong>"I like him."</strong> The pronoun <em>him</em> is an object pronoun that receives the action of "like".</li>
+    <li><strong>"That is mine."</strong> The pronoun <em>mine</em> replaces the noun and shows possession without repeating it.</li>
+  </ul>
+
+  <h2 class="level1">Conclusion</h2>
+  <p>Pronoun Power demonstrates how a simple web technology stack (HTML, CSS, and JavaScript) can
+  turn a grammar objective into an engaging, self-checking activity. By combining flip animations,
+  immediate feedback, color-coded categories, and wildcards, the game helps learners practice
+  personal, possessive, and object pronouns in realistic contexts while enjoying the process.</p>
+</section>
+
+<!-- ============ PAGE 4: REFERENCES ============ -->
+<section class="page references">
+  <h2 class="level1">References</h2>
+  <p>Escobar-Álvarez, M. Á. (Coord.). (2020). <em>Curso de inglés para adultos</em> (pp. 24–30).
+  UNED – Universidad Nacional de Educación a Distancia.</p>
+  <p>Muñoz-Ortiz, F. (2020). <em>Inglés A1</em> (pp. 136–146). Editorial Tutor Formación.</p>
+  <p>Santiesteban-Naranjo, E. (2024). <em>Sharpening up your vocabulary: A practical guide for
+  English as a foreign language learner</em> (pp. 5–12). Editorial Tecnocientífica Americana.</p>
+
+  <p class="noindent" style="margin-top:24px; font-size:11pt; color:#555;">Note. Replace "Student
+  Name," "Instructor Name," and the course details on the title page with your own information
+  before submitting.</p>
+</section>
+
+</body>
+</html>
