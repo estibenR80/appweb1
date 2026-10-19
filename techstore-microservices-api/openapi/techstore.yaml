@@ -1,0 +1,287 @@
+openapi: 3.0.3
+info:
+  title: TechStore API
+  version: 1.0.0
+  description: >
+    API de tienda online con arquitectura de microservicios.
+    Expone operaciones CRUD para catálogo/inventario, carrito, pagos y envíos,
+    con autenticación basada en JWT. Taller Semana 8 - Programación Avanzada.
+servers:
+  - url: http://localhost:8080
+    description: API Gateway (staging local)
+tags:
+  - name: Auth
+    description: Registro, login y perfil de usuario
+  - name: Catalog
+    description: Catálogo de productos e inventario
+  - name: Cart
+    description: Carrito de compras y checkout
+  - name: Payment
+    description: Pasarela de pago (simulada)
+  - name: Shipping
+    description: Gestión de envíos
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        message: { type: string }
+    RegisterRequest:
+      type: object
+      required: [email, password, name]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 6 }
+        name: { type: string }
+        role: { type: string, enum: [customer, admin] }
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+    AuthResponse:
+      type: object
+      properties:
+        token: { type: string }
+        user: { $ref: '#/components/schemas/User' }
+    User:
+      type: object
+      properties:
+        id: { type: integer }
+        email: { type: string }
+        name: { type: string }
+        role: { type: string }
+    Product:
+      type: object
+      properties:
+        id: { type: integer }
+        sku: { type: string }
+        name: { type: string }
+        description: { type: string }
+        price_cents: { type: integer }
+        stock: { type: integer }
+        category: { type: string }
+        active: { type: integer }
+    ProductInput:
+      type: object
+      required: [sku, name, price_cents, stock]
+      properties:
+        sku: { type: string }
+        name: { type: string }
+        description: { type: string }
+        price_cents: { type: integer }
+        stock: { type: integer }
+        category: { type: string }
+    CartItemInput:
+      type: object
+      required: [product_id, quantity]
+      properties:
+        product_id: { type: integer }
+        quantity: { type: integer, minimum: 1 }
+    Cart:
+      type: object
+      properties:
+        id: { type: integer }
+        status: { type: string }
+        total_cents: { type: integer }
+        items:
+          type: array
+          items: { type: object }
+    CheckoutRequest:
+      type: object
+      required: [payment_method, address]
+      properties:
+        payment_method: { type: string, enum: [credit_card, debit_card, paypal] }
+        card_number: { type: string }
+        address: { type: string }
+paths:
+  /api/auth/register:
+    post:
+      tags: [Auth]
+      summary: Registra un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterRequest' }
+      responses:
+        '201':
+          description: Usuario creado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '409':
+          description: El correo ya existe
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      summary: Inicia sesión y devuelve un JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: Token emitido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '401':
+          description: Credenciales incorrectas
+  /api/auth/me:
+    get:
+      tags: [Auth]
+      summary: Perfil del usuario autenticado
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Datos del usuario
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+  /api/products:
+    get:
+      tags: [Catalog]
+      summary: Lista el catálogo de productos
+      parameters:
+        - { name: category, in: query, schema: { type: string } }
+        - { name: q, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer } }
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Product' }
+    post:
+      tags: [Catalog]
+      summary: Crea un producto (solo admin)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductInput' }
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '403':
+          description: Se requiere rol admin
+  /api/products/{id}:
+    get:
+      tags: [Catalog]
+      summary: Detalle de un producto
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: Producto
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '404':
+          description: No encontrado
+    put:
+      tags: [Catalog]
+      summary: Actualiza un producto (solo admin)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductInput' }
+      responses:
+        '200':
+          description: Producto actualizado
+    delete:
+      tags: [Catalog]
+      summary: Elimina (desactiva) un producto (solo admin)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '204':
+          description: Eliminado
+  /api/cart:
+    get:
+      tags: [Cart]
+      summary: Obtiene el carrito del usuario
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Carrito
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+  /api/cart/items:
+    post:
+      tags: [Cart]
+      summary: Agrega un ítem al carrito
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CartItemInput' }
+      responses:
+        '201':
+          description: Ítem agregado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+  /api/cart/items/{id}:
+    delete:
+      tags: [Cart]
+      summary: Quita un ítem del carrito
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: Carrito actualizado
+  /api/cart/checkout:
+    post:
+      tags: [Cart]
+      summary: Confirma la compra (reserva stock, pago y envío)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CheckoutRequest' }
+      responses:
+        '201':
+          description: Orden confirmada con pago y envío
+        '402':
+          description: Pago rechazado
+        '409':
+          description: Sin stock suficiente
+  /api/shipping/order/{orderId}:
+    get:
+      tags: [Shipping]
+      summary: Estado del envío de una orden
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: orderId, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: Envío
