@@ -1,0 +1,137 @@
+/* ========= Tema global "retro-gamer" oscuro ========= */
+:root {
+  --bg: #0b0c16;
+  --surface: #15172a;
+  --surface-2: #1e2140;
+  --border: #2a2d52;
+  --text: #ecedf7;
+  --text-dim: #a7abc9;
+  --accent: #7c5cff;
+  --accent-2: #19d3c5;
+  --accent-3: #ff5c8a;
+  --warn: #ffb020;
+  --ok: #2ed06e;
+  --radius: 14px;
+  --maxw: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: radial-gradient(1200px 600px at 10% -10%, #1a1d3a 0%, transparent 60%),
+    radial-gradient(1000px 500px at 110% 10%, #2a1140 0%, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+a {
+  color: var(--accent-2);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+/* ===== Botones / pills ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s, filter 0.12s;
+}
+.btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.btn.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+/* ===== Card base ===== */
+.card {
+  background: linear-gradient(180deg, var(--surface) 0%, #12142400 140%),
+    var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* ===== Inputs ===== */
+input,
+select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+}
+input:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+/* ===== Utilidades ===== */
+.muted {
+  color: var(--text-dim);
+}
+.center {
+  text-align: center;
+}
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 999px;
+}

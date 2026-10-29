@@ -1,0 +1,87 @@
+<section class="container page">
+  <header class="page-head">
+    <h1>Catálogo de consolas</h1>
+    <p class="muted">
+      Explora todas las consolas de la historia. Filtra por marca, generación o
+      tipo, y entra en cada ficha para ver su arquitectura y el Top de juegos.
+    </p>
+  </header>
+
+  <div class="filters card">
+    <div class="filter">
+      <label for="search">Buscar</label>
+      <input
+        id="search"
+        type="search"
+        placeholder="Nombre, marca…"
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+      />
+    </div>
+    <div class="filter">
+      <label for="brand">Marca</label>
+      <select id="brand" [ngModel]="brand()" (ngModelChange)="brand.set($event)">
+        <option value="">Todas</option>
+        @for (m of manufacturers; track m) {
+          <option [value]="m">{{ m }}</option>
+        }
+      </select>
+    </div>
+    <div class="filter">
+      <label for="gen">Generación</label>
+      <select id="gen" [ngModel]="generation()" (ngModelChange)="generation.set($event)">
+        <option value="">Todas</option>
+        @for (g of generations; track g.number) {
+          <option [value]="g.number">{{ g.number }}ª — {{ g.years }}</option>
+        }
+      </select>
+    </div>
+    <div class="filter">
+      <label for="type">Tipo</label>
+      <select id="type" [ngModel]="type()" (ngModelChange)="type.set($event)">
+        <option value="">Todos</option>
+        @for (t of types; track t) {
+          <option [value]="t">{{ t }}</option>
+        }
+      </select>
+    </div>
+    <div class="filter">
+      <label for="sort">Ordenar</label>
+      <select id="sort" [ngModel]="sort()" (ngModelChange)="sort.set($event)">
+        <option value="year-asc">Año ↑</option>
+        <option value="year-desc">Año ↓</option>
+        <option value="name">Nombre A-Z</option>
+        <option value="games">Nº de juegos</option>
+      </select>
+    </div>
+    <button class="btn ghost reset" (click)="resetFilters()">Limpiar</button>
+  </div>
+
+  <p class="result-count muted">{{ filtered().length }} consolas</p>
+
+  <div class="grid cards">
+    @for (c of filtered(); track c.id) {
+      <a class="console-card card" [routerLink]="['/consolas', c.id]">
+        <div class="card-top" [style.borderColor]="c.accent || 'var(--accent)'">
+          <span class="year">{{ c.releaseYear }}</span>
+          <span class="pill">{{ c.type }}</span>
+        </div>
+        <h3 [style.color]="c.accent || 'var(--text)'">{{ c.shortName || c.name }}</h3>
+        <p class="maker">{{ c.manufacturer }}</p>
+        <p class="desc">{{ c.description }}</p>
+        <div class="meta">
+          <span class="pill">Gen {{ c.generation }}</span>
+          @if (c.architecture.bits) {
+            <span class="pill">{{ c.architecture.bits }}</span>
+          }
+          <span class="pill">{{ c.topGames.length }} juegos</span>
+        </div>
+      </a>
+    } @empty {
+      <div class="empty card">
+        <p>No hay consolas que coincidan con los filtros.</p>
+        <button class="btn" (click)="resetFilters()">Limpiar filtros</button>
+      </div>
+    }
+  </div>
+</section>

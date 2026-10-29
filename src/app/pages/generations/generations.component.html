@@ -1,0 +1,31 @@
+<section class="container page">
+  <header class="page-head">
+    <h1>Generaciones de consolas</h1>
+    <p class="muted">
+      La historia del hardware de videojuegos dividida en sus nueve generaciones,
+      con las consolas de cada una.
+    </p>
+  </header>
+
+  @for (group of groups; track group.generation.number) {
+    <section class="gen">
+      <header class="gen-head">
+        <div class="gen-num">{{ group.generation.number }}</div>
+        <div>
+          <h2>{{ group.generation.name }} <span class="years">{{ group.generation.years }}</span></h2>
+          <p class="muted">{{ group.generation.summary }}</p>
+        </div>
+      </header>
+      <div class="gen-consoles">
+        @for (c of group.consoles; track c.id) {
+          <a class="chip" [routerLink]="['/consolas', c.id]">
+            <span class="chip-name">{{ c.shortName || c.name }}</span>
+            <span class="chip-meta">{{ c.manufacturer }} · {{ c.releaseYear }}</span>
+          </a>
+        } @empty {
+          <p class="muted">Sin consolas en el catálogo para esta generación.</p>
+        }
+      </div>
+    </section>
+  }
+</section>

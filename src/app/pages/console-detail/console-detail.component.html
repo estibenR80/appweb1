@@ -1,0 +1,72 @@
+@if (console(); as c) {
+  <article class="container page">
+    <a routerLink="/consolas" class="back">← Volver al catálogo</a>
+
+    <header class="hero card" [style.borderColor]="c.accent || 'var(--accent)'">
+      <div class="hero-main">
+        <span class="hero-year" [style.color]="c.accent || 'var(--accent)'">{{ c.releaseYear }}</span>
+        <h1>{{ c.name }}</h1>
+        <p class="hero-desc">{{ c.description }}</p>
+        <div class="hero-pills">
+          <span class="pill">{{ c.manufacturer }}</span>
+          <span class="pill">Generación {{ c.generation }}</span>
+          <span class="pill">{{ c.type }}</span>
+          @if (c.architecture.bits) {<span class="pill">{{ c.architecture.bits }}</span>}
+        </div>
+      </div>
+    </header>
+
+    <div class="columns">
+      <section class="card panel">
+        <h2>Ficha general</h2>
+        <dl class="spec-list">
+          @for (row of meta(); track row.label) {
+            <div class="spec-row">
+              <dt>{{ row.label }}</dt>
+              <dd>{{ row.value }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <section class="card panel">
+        <h2>Arquitectura técnica</h2>
+        <dl class="spec-list">
+          @for (row of specs(); track row.label) {
+            <div class="spec-row">
+              <dt>{{ row.label }}</dt>
+              <dd>{{ row.value }}</dd>
+            </div>
+          } @empty {
+            <p class="muted">Sin datos de arquitectura disponibles.</p>
+          }
+        </dl>
+      </section>
+    </div>
+
+    <section class="games">
+      <div class="games-head">
+        <h2>Top {{ c.topGames.length }} juegos originales</h2>
+        <p class="muted">Los títulos más destacados lanzados para {{ c.shortName || c.name }}.</p>
+      </div>
+      <ol class="games-list">
+        @for (g of c.topGames; track g.rank) {
+          <li class="game">
+            <span class="rank">{{ g.rank }}</span>
+            <span class="g-title">{{ g.title }}</span>
+            <span class="g-meta">
+              @if (g.developer) {<span class="dev">{{ g.developer }}</span>}
+              @if (g.year) {<span class="g-year">{{ g.year }}</span>}
+            </span>
+          </li>
+        }
+      </ol>
+    </section>
+  </article>
+} @else {
+  <section class="container page not-found">
+    <h1>Consola no encontrada</h1>
+    <p class="muted">No existe ninguna consola con ese identificador.</p>
+    <a routerLink="/consolas" class="btn">Ir al catálogo</a>
+  </section>
+}

@@ -1,0 +1,108 @@
+.page {
+  padding-top: 2rem;
+}
+.page-head h1 {
+  margin: 0 0 0.3rem;
+  font-size: 2rem;
+}
+.page-head p {
+  margin: 0 0 1.5rem;
+  max-width: 60ch;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.filter label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+.filter input,
+.filter select {
+  min-width: 150px;
+}
+.reset {
+  margin-left: auto;
+}
+.result-count {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.9rem;
+}
+
+.cards {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.console-card {
+  padding: 1.1rem;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.console-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px -12px rgba(124, 92, 255, 0.5);
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+}
+.card-top .year {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.console-card h3 {
+  margin: 0.3rem 0 0;
+  font-size: 1.25rem;
+}
+.maker {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+.desc {
+  margin: 0.2rem 0 0.6rem;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.meta {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.empty {
+  grid-column: 1 / -1;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}

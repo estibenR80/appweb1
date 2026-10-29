@@ -1,0 +1,61 @@
+.page {
+  padding-top: 2rem;
+}
+.page-head h1 {
+  margin: 0 0 0.3rem;
+  font-size: 2rem;
+}
+.page-head p {
+  margin: 0 0 1.5rem;
+  max-width: 60ch;
+}
+.brand-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.brand {
+  padding: 1.3rem;
+}
+.brand-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.brand-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.brand-years {
+  margin: 0.2rem 0 0.9rem;
+  font-size: 0.85rem;
+}
+.brand-consoles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.brand-consoles a {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.12s;
+}
+.brand-consoles a:hover {
+  background: var(--surface-2);
+}
+.c-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.c-year {
+  color: var(--accent-2);
+  font-size: 0.82rem;
+  font-weight: 700;
+}

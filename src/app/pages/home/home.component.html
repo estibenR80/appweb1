@@ -1,0 +1,69 @@
+<section class="hero">
+  <div class="container hero-inner">
+    <span class="eyebrow">Enciclopedia de hardware de videojuegos</span>
+    <h1>La historia completa de las <span class="grad">consolas de videojuegos</span></h1>
+    <p class="lede">
+      Todas las marcas, estilos, modelos y arquitecturas — desde la Magnavox
+      Odyssey de 1972 hasta la generación actual. Cada ficha incluye su
+      arquitectura técnica y el Top de juegos originales.
+    </p>
+    <div class="hero-cta">
+      <a routerLink="/consolas" class="btn">Explorar el catálogo</a>
+      <a routerLink="/generaciones" class="btn ghost">Ver generaciones</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">{{ stats.totalConsoles }}</span>
+        <span class="stat-label">consolas</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">{{ stats.totalBrands }}</span>
+        <span class="stat-label">marcas</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">{{ stats.totalGames }}</span>
+        <span class="stat-label">juegos listados</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">{{ stats.yearRange }}</span>
+        <span class="stat-label">años de historia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container block">
+  <div class="block-head">
+    <h2>Consolas emblemáticas</h2>
+    <a routerLink="/consolas" class="see-all">Ver todas →</a>
+  </div>
+  <div class="grid featured">
+    @for (c of featured; track c.id) {
+      <a class="feat card" [routerLink]="['/consolas', c.id]">
+        <span class="feat-year" [style.color]="c.accent || 'var(--accent)'">{{ c.releaseYear }}</span>
+        <h3>{{ c.shortName || c.name }}</h3>
+        <p class="feat-maker">{{ c.manufacturer }}</p>
+      </a>
+    }
+  </div>
+</section>
+
+<section class="container block">
+  <div class="block-head">
+    <h2>Línea de tiempo por generaciones</h2>
+    <a routerLink="/generaciones" class="see-all">Detalle →</a>
+  </div>
+  <ol class="timeline">
+    @for (g of generations; track g.number) {
+      <li class="tl-item card">
+        <div class="tl-num">{{ g.number }}</div>
+        <div class="tl-body">
+          <h3>{{ g.name }} <span class="tl-years">{{ g.years }}</span></h3>
+          <p>{{ g.summary }}</p>
+          <span class="pill">{{ consolesInGen(g.number) }} consolas en el catálogo</span>
+        </div>
+      </li>
+    }
+  </ol>
+</section>

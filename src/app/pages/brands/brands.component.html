@@ -1,0 +1,31 @@
+<section class="container page">
+  <header class="page-head">
+    <h1>Marcas y fabricantes</h1>
+    <p class="muted">
+      Los fabricantes que han marcado la historia del hardware de videojuegos,
+      ordenados por número de consolas en el catálogo.
+    </p>
+  </header>
+
+  <div class="grid brand-grid">
+    @for (b of brands; track b.manufacturer) {
+      <section class="brand card">
+        <header class="brand-head">
+          <h2>{{ b.manufacturer }}</h2>
+          <span class="pill">{{ b.count }} consolas</span>
+        </header>
+        <p class="brand-years muted">{{ b.firstYear }} – {{ b.lastYear }}</p>
+        <ul class="brand-consoles">
+          @for (c of b.consoles; track c.id) {
+            <li>
+              <a [routerLink]="['/consolas', c.id]">
+                <span class="c-name">{{ c.shortName || c.name }}</span>
+                <span class="c-year">{{ c.releaseYear }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+</section>
