@@ -34,6 +34,21 @@ npm run build
 
 ---
 
+## 👀 Demo estática (sin instalar nada)
+
+En la carpeta [`demo/`](./demo) hay una **versión HTML autónoma** de la app (un `index.html` + `app.js` + `data.js`) que replica la interfaz usando los **mismos datos** del proyecto, sin necesidad de Node ni de compilar. Útil para echar un vistazo rápido.
+
+```bash
+# Ábrela con cualquier servidor estático, por ejemplo:
+npx serve demo
+# o
+python3 -m http.server 8000 --directory demo
+```
+
+> La versión definitiva y mantenible es la app Angular (`src/`). La demo es solo una vista previa.
+
+---
+
 ## 🗂️ Estructura del proyecto
 
 ```
